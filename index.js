@@ -1,54 +1,36 @@
 const express = require('express');
 const app = express();
+const authRoutes = require('./routes/auth.js');
+const mongoose = require('mongoose')
 
+
+
+const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}@cluster0.nw256.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority`
+mongoose
+    .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log('Conectado a la base de datos')
+    })
+    .catch((e) => {
+        console.log('Database error', e)
+    })
+
+require('dotenv').config()
 app.use(express.json());
 
-const users = [
-    {id:1, username: 'yomero', albums: [''], movies:[''], videogames:[''], tvshows:[''], animanga:['']},
-    {id:2, username: 'yomero', albums: [''], movies:[''], videogames:[''], tvshows:[''], animanga:['']},
-]
+
+app.use(express.urlencoded({extended: false}))
+
+app.use('/api/user', authRoutes)
 
 app.get('/', (req, res) => {
     res.send('MyApi');
 });
 
-app.get('/api/users', (req, res) => {
-    res.send(users);
-});
-
-app.get('/api/users/:id', (req, res) => {
-    const user = users.find(c => c.id === parseInt(req.params.id));
-    if(!user) return res.status(404).send('Usuario no encontrado');
-    else res.send(user);
-});
-
-app.post('/api/users', (req, res) => {
-    const user = {
-        id: users.length + 1,
-        username: req.body.username,
-        albums: req.body.albums,
-        movies: req.body.movies,
-        videogames: req.body.videogames,
-        tvshows: req.body.tvshows,
-        animanga: req.body.animanga
-    };
-    users.push(user);
-    res.send(user);
-});
-
-app.delete('/api/users/:id', (req, res) => {
-    const user = users.find(c => c.id === parseInt(req.params.id));
-    if(!user) return res.status(404).send('Usuario no encontrado');
-
-    const index = users.indexOf(user);
-    users.splice(index, 1);
-    res.send(user);
-});
-
-const port = process.env.port || 80;
-app.listen(port, () => console.log(`Escuchando en el puerto ${port}...`));
-
-
+const PORT = process.env.PORT || 8002
+app.listen(PORT, () => {
+    console.log(`Tu servidor está corriendo en el puerto: ${PORT}`)
+})
 
 
 
