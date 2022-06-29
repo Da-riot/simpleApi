@@ -6,7 +6,7 @@ const dashboardRoutes = require('./routes/dashboard')
 const verifyToken = require('./routes/validateToken')
 
 
-const uri = `mongodb+srv://dariot:galletas@cluster0.nw256.mongodb.net/test?retryWrites=true&w=majority`
+const uri = `mongodb+srv://${process.env.USER}:${process.env.PASSWORD}s@cluster0.nw256.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority`
 mongoose
     .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -14,7 +14,6 @@ mongoose
     })
     .catch((e) => {
         console.log('Database error', e)
-        console.log(`mongodb+srv://dariot:${process.env.PASSWORD}@cluster0.nw256.mongodb.net/test?retryWrites=true&w=majority`)
     })
 
 require('dotenv').config()

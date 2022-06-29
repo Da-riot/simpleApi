@@ -21,6 +21,10 @@ const userSchema = mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    albums: {
+        type: Array,
+        default: [1,2,3,4]
     }
 })
 

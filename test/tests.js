@@ -32,7 +32,7 @@ describe('API test: ',()=>{
     it('should not let you login when giving wrong password', (done) => {
         chai.request("http://localhost:8002")
             .post('/api/user/login')
-            .send({ "email": "prueba5@prueba.com", "password":"123123" })
+            .send({ "email": "prueba3@prueba.com", "password":"MALAPASSWORD" })
             .end( function(err,res){
                 chai.expect(res).to.have.status(400);
                 done();
@@ -41,7 +41,7 @@ describe('API test: ',()=>{
     it('should let you login when giving correct password', (done) => {
         chai.request("http://localhost:8002")
             .post('/api/user/login')
-            .send({ "email": "prueba5@prueba.com", "password":"1231234" })
+            .send({ "email": `${process.env.EMAILTEST}`, "password":`${process.env.PASSWORDTEST}`})
             .end( function(err,res){
                 chai.expect(res).to.have.status(200);
                 done();
@@ -50,7 +50,7 @@ describe('API test: ',()=>{
     it('should not let you login when giving wrong username', (done) => {
         chai.request("http://localhost:8002")
             .post('/api/user/login')
-            .send({ "email": "prueqweba5@prueba.com", "password":"1231234" })
+            .send({ "email": "malusername@prueba.com", "password":`${process.env.PASSWORDTEST}`})
             .end( function(err,res){
                 chai.expect(res).to.have.status(400);
                 done();
@@ -59,7 +59,7 @@ describe('API test: ',()=>{
     it('should not let you register when existing email', (done) => {
         chai.request("http://localhost:8002")
             .post('/api/user/register')
-            .send({"name":"prueba5", "email":"prueba5@prueba.com", "password": "123123"})
+            .send({"name":"prueba5", "email":`${process.env.EMAILTEST}`, "password": "RANDOMPASSWORD"})
             .end( function(err,res){
                 chai.expect(res).to.have.status(400);
                 done();
