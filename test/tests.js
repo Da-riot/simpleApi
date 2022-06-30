@@ -12,50 +12,7 @@ chai.use(require("chai-http"));
 
 
 describe('API test: ',()=>{
-    it('should not let you go to dashboard when giving no token', (done) => {
-        chai.request("http://localhost:8002")
-            .get('/api/dashboard')
-            .end( function(err,res){
-                chai.expect(res).to.have.status(401);
-                done();
-            });
-    });
-    it('should not let you go to dashboard when giving wrong token', (done) => {
-        chai.request("http://localhost:8002")
-            .get('/api/dashboard')
-            .set('authorization', '8281938')
-            .end( function(err,res){
-                chai.expect(res).to.have.status(400);
-                done();
-            });
-    });
-    it('should not let you login when giving wrong password', (done) => {
-        chai.request("http://localhost:8002")
-            .post('/api/user/login')
-            .send({ "email": "prueba3@prueba.com", "password":"MALAPASSWORD" })
-            .end( function(err,res){
-                chai.expect(res).to.have.status(400);
-                done();
-            });
-    });
-    it('should let you login when giving correct password', (done) => {
-        chai.request("http://localhost:8002")
-            .post('/api/user/login')
-            .send({ "email": `${process.env.EMAILTEST}`, "password":`${process.env.PASSWORDTEST}`})
-            .end( function(err,res){
-                chai.expect(res).to.have.status(200);
-                done();
-            });
-    });
-    it('should not let you login when giving wrong username', (done) => {
-        chai.request("http://localhost:8002")
-            .post('/api/user/login')
-            .send({ "email": "malusername@prueba.com", "password":`${process.env.PASSWORDTEST}`})
-            .end( function(err,res){
-                chai.expect(res).to.have.status(400);
-                done();
-            });
-    });
+
     it('should not let you register when existing email', (done) => {
         chai.request("http://localhost:8002")
             .post('/api/user/register')
