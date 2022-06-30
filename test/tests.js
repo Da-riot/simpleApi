@@ -12,6 +12,7 @@ chai.use(require("chai-http"));
 
 
 describe('API test: ',()=>{
+
     it('should not let you register when existing email', (done) => {
         chai.request("http://localhost:8002")
             .post('/api/user/register')
